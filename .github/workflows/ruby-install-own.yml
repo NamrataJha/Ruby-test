@@ -12,6 +12,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+      
+      - name: clean cache
+        run: rm -rf /opt/hostedtoolcache/Ruby/${{ matrix.ruby-version }}/x64/lib/ruby/gems/${{ matrix.ruby-version }}/specifications/*
 
       - name: Setup Ruby ${{ matrix.ruby-version }}
         uses: ruby/setup-ruby@v1
