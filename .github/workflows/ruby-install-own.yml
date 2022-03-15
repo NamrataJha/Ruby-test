@@ -1,0 +1,36 @@
+on: [push, repository_dispatch, workflow_dispatch]
+
+jobs:
+  bundle-install:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        ruby-version: ['2.6.0', '2.7.5', '3.1.0']
+        bundler: ['2.3.4', '2.3.5']
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Ruby ${{ matrix.ruby-version }}
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby-version }}
+          bundler: ${{ matrix.bundler }}
+
+      - run: bundle version
+
+      - name: Add Gemfile
+        run: |
+          cat > Gemfile << EOM
+          source "https://rubygems.org"
+          source "https://rubygems.pkg.github.com/namratajha" do
+            gem "sample_gem_namratajha"
+          end
+          EOM
+      - name: Authenticate using Bundler
+        run: bundle config https://rubygems.pkg.github.com/namratajha token:${{ secrets.READ_PACKAGES_TOKEN_WITHOUT_REPO }}
+
+      - name: Install using Bundler
+        run: bundle install
