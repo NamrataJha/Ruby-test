@@ -25,12 +25,13 @@ jobs:
         run: |
           cat > Gemfile << EOM
           source "https://rubygems.org"
-          source "https://rubygems.pkg.github.com/namratajha" do
-            gem "sample_gem_namratajha"
+          source "https://rubygems.pkg.github.com/moneyforward" do
+            gem "geld-utils"
+            gem "mf_platform-cipher"
           end
           EOM
       - name: Authenticate using Bundler
-        run: bundle config https://rubygems.pkg.github.com/namratajha token:${{ secrets.READ_PACKAGES_TOKEN_WITH_REPO }}
+        run: bundle config https://rubygems.pkg.github.com/moneyforward token:${{ secrets.READ_PACKAGES_TOKEN }}
 
       - name: Install using Bundler
         run: bundle install
