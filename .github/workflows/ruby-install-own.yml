@@ -7,14 +7,17 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        ruby-version: ['2.6.0', '2.7.5', '3.1.0']
+        ruby-version: ['3.1.0']
         bundler: ['2.3.5']
 
     steps:
       - uses: actions/checkout@v2
       
       - name: clean cache
-        run: rm -rf /opt/hostedtoolcache/Ruby/${{ matrix.ruby-version }}/x64/lib/ruby/gems/${{ matrix.ruby-version }}/specifications/*
+        run: |
+          rm /opt/hostedtoolcache/Ruby/${{ matrix.ruby-version }}/x64/lib/ruby/gems/${{ matrix.ruby-version }}/specifications/*
+          cd /opt/hostedtoolcache/Ruby/${{ matrix.ruby-version }}/x64/lib/ruby/gems/${{ matrix.ruby-version }}/specifications/*
+          ls -a 
 
       - name: Setup Ruby ${{ matrix.ruby-version }}
         uses: ruby/setup-ruby@v1
