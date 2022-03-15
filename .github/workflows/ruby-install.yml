@@ -30,7 +30,7 @@ jobs:
           end
           EOM
       - name: Authenticate using Bundler
-        run: bundle config https://rubygems.pkg.github.com/namratajha token:${{ secrets.READ_PACKAGES_TOKEN_WITHOUT_REPO }}
+        run: bundle config https://rubygems.pkg.github.com/namratajha token:${{ secrets.READ_PACKAGES_TOKEN_WITH_REPO }}
 
       - name: Install using Bundler
         run: bundle install
